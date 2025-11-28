@@ -38,6 +38,7 @@ class Todo {
       searchQuery: '',
     }
     this.render()
+    this.bindEvents()
   }
 
   getItemsFromLocalStorage() {
@@ -154,7 +155,7 @@ class Todo {
     const queryFormatted = this.state.searchQuery.toLowerCase()
 
     this.state.filteredItems = this.state.items.filter(({ title }) => {
-      const titleFormatted = title.toLowerCase
+      const titleFormatted = title.toLowerCase()
 
       return titleFormatted.includes(queryFormatted)
     })
@@ -219,12 +220,19 @@ class Todo {
     }
   }
 
+  onChange = ({ target }) => {
+    if (target.matches(this.selectors.itemCheckbox)) {
+      this.toggleCheckedState(target.id)
+    }
+  }
+
   bindEvents() {
     this.newTaskFormElement.addEventListener('submit', this.onNewTaskFormSubmit)
     this.searchTaskFormElement.addEventListener('submit', this.onSearchTaskFormSubmit)
     this.searchTaskInputElement.addEventListener('input', this.onSearchTaskInputChange)
     this.deleteAllButtonElement.addEventListener('click', this.onDeleteAllButtonClick)
     this.listElement.addEventListener('click', this.onClick)
+    this.listElement.addEventListener('change', this.onChange)
   }
 }
 
